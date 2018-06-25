@@ -1,13 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 import { connect } from "react-redux"
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Typography from '@material-ui/core/Typography'
+import AppList from './AppList'
+import AppForm from './AppForm'
 import { Header } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
-import AppPage from './AppPage'
+
 
 class Home extends React.Component {
   state = { apps: [] }
@@ -20,40 +17,34 @@ class Home extends React.Component {
       })
   }
 
-  render() {
-    
-    const styles = {
-      image: {
-        height: 25,
-        width: 25,
+  addApp = ( name, description, category, price, version, author, logo ) => {
+    let app = {  name, description, category, price, version, author, logo  }
+    fetch('/api/apps', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
-      card: {
-        maxWidth: 330,
-      }
-    }
-    let { apps } = this.state
+      body: JSON.stringify(app)
+    }).then(res => res.json())
+      .then(app => {
+        const { apps } = this.state
+        this.setState({ apps: [app, ...apps] })
+      })
 
+  }
+
+  render() {
     return (
       <div>
         <Header textAlign='center'> App </Header>
-        
-        {apps.map(app =>
-          <Card key={app.id} style={styles.card} >
-            <div>
-              <CardMedia><img src={apps.logo} style={styles.image} alt="App Logo"/></CardMedia>
-              
-              <CardContent>
-                <Typography gutterBottom variant="headline" component="h2">
-                  {apps.author}
-                </Typography>
-                <Typography component="p">
-                  He{apps.description}nlo
-                </Typography>
-                <button onClick={() => <Link to={<AppPage app={app} />} />}>Go to App</button>
-              </CardContent>
-            </div>
-          </Card>
-        )}
+        <div className='left'>
+          <AppList apps={this.state.apps} />
+        </div>
+
+        <div className='right'>
+          <AppForm addApp={this.addApp} />s
+        </div>
       </div>
     )
   }
