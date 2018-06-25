@@ -15,7 +15,7 @@ const styles = {
   }
 }
 
-const AppList = ({apps}) => (
+const AppList = ({apps, updateApp, deleteApp}) => (
   <div>
     {
       apps.map(app =>
@@ -30,7 +30,8 @@ const AppList = ({apps}) => (
               <Typography component="p">
                 {app.description}
               </Typography>
-
+              <button onClick={updateApp}>Update</button>
+              <button onClick={deleteApp}>Delete</button>
             </CardContent>
           </div>
         </Card>

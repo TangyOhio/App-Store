@@ -34,17 +34,43 @@ class Home extends React.Component {
 
   }
 
+  showForm = () => (
+    <AppForm addApp={this.addApp} />
+  )
+
+  updateApp = (id) => {
+    this.showForm()
+    let apps = this.state.apps.map(a => {
+      if (a.id === id)
+        return { ...a }
+      return a
+    })
+
+    this.setState({ apps })
+  }
+
+  deleteApp = (id) => {
+    const { apps } = this.state
+    this.setState({ apps: apps.filter(a => a.id !== id) })
+  }
+
   render() {
     return (
       <div>
         <Header textAlign='center'> App </Header>
-        <div className='left'>
-          <AppList apps={this.state.apps} />
-        </div>
 
         <div className='right'>
-          <AppForm addApp={this.addApp} />s
+          <AppForm addApp={this.addApp} />
         </div>
+        
+        <div className='left'>
+          <AppList 
+            apps={this.state.apps} 
+            updateApp={this.updateApp}
+            deleteApp={this.deleteApp}
+          />
+        </div>
+
       </div>
     )
   }

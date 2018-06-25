@@ -7,7 +7,7 @@ class AppForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     let app = { ...this.state }
-    this.props.addApp(app)
+    this.props.addApp(...app)
     this.setState({ ...this.defaultValues })
   }
 
@@ -57,6 +57,7 @@ class AppForm extends Component {
           placeholder='Author'
           value={author}
           onChange={this.handleChange}
+          required
         />
         <input
           id='logo'
