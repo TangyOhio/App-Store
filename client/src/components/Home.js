@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import { Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import AppPage from './AppPage'
 
 class Home extends React.Component {
   state = { apps: [] }
@@ -19,24 +21,39 @@ class Home extends React.Component {
   }
 
   render() {
+    
+    const styles = {
+      image: {
+        height: 25,
+        width: 25,
+      },
+      card: {
+        maxWidth: 330,
+      }
+    }
+    let { apps } = this.state
+
     return (
       <div>
         <Header textAlign='center'> App </Header>
-        <Card>
-          <CardMedia
-            src={this.state.apps.logo}
-            title="App name"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="headline" component="h2">
-              Lizard
-            </Typography>
-            <Typography component="p">
-              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-              across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </Card>
+        
+        {apps.map(app =>
+          <Card key={app.id} style={styles.card} >
+            <div>
+              <CardMedia><img src={apps.logo} style={styles.image} alt="App Logo"/></CardMedia>
+              
+              <CardContent>
+                <Typography gutterBottom variant="headline" component="h2">
+                  {apps.author}
+                </Typography>
+                <Typography component="p">
+                  He{apps.description}nlo
+                </Typography>
+                <button onClick={() => <Link to={<AppPage app={app} />} />}>Go to App</button>
+              </CardContent>
+            </div>
+          </Card>
+        )}
       </div>
     )
   }

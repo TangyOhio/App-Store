@@ -49,8 +49,9 @@ class Login extends Component {
             <Button primary type='submit'>Submit</Button>
           </Segment>
         </Form>
+        <Header as='h5' textAlign='center'>You must log in to view the store</Header>
       </Segment>
-    );
+    )
   }
 }
 
